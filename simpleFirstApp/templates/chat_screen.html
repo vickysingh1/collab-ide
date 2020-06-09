@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Simple Sidebar - Start Bootstrap Template</title>
+  <script src="https://pagecdn.io/lib/ace/1.4.11/ace.js" type="text/javascript" charset="utf-8"></script>
+
+  <!-- Bootstrap core CSS -->
+ 
+
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Code Editor</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <!-- Custom styles for this template -->
+  <script
+  src="https://code.jquery.com/jquery-1.6.4.min.js"
+  integrity="sha256-lR1rrjnrFy9XqIvWhvepIc8GD9IfWWSPDSC2qPmPxaU="
+  crossorigin="anonymous"></script>
+ 
+
+<!-- ---------------------------------------------- -->
+
+
+
+
+  <style>
+  
+  
+  
+  body {
+    overflow-x: hidden;
+  }
+  /* #editor { 
+        position: absolute;
+        top: 6.2%;
+        right: 0%;
+        bottom: 0%;
+        left:1%;
+        height: 42rem;
+     
+        
+        
+        
+    } */
+    div.outfields{
+    	margin-top:0rem;
+    
+    }
+    div.scroll { 
+                margin:4px,4px; 
+                padding:12px; 
+                background-color: rgb(216, 214, 214); 
+                width: 300px; 
+                height: 300px; 
+                overflow-x: hidden; 
+                overflow-x:hidden; 
+                text-align:justify;
+                border: 2rem;
+                font-family: system-ui;
+               
+    }
+    
+  #sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+  }
+  
+  #sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+  }
+  
+  #sidebar-wrapper .list-group {
+    width: 20rem;
+  }
+
+  @media (min-width: 768px) {
+    #sidebar-wrapper {
+      margin-left: 0;
+    }
+  
+    #page-content-wrapper {
+      min-width: 0;
+      width: 100%;
+    }
+  
+    #wrapper.toggled #sidebar-wrapper {
+      margin-left: -20rem;
+    }
+  }
+  #message{
+width: 100%;
+height: 42rem;
+border-color:rgb(6, 2, 71);
+font-size: large;
+
+}
+.dot {
+  height: 12px;
+  width: 12px;
+  background-color: rgb(43, 175, 10);
+  border-radius: 50%;
+  display: inline-block;
+}
+.onlinepeople.ul{
+  
+    height:30px; width:18%;
+   
+       
+}
+.onlinepeople.ul{
+    overflow:hidden; 
+        overflow-y:scroll;
+        font-weight: bold;
+   
+}
+ 
+  
+  </style>
+
+</head>
+<body>
+    <form id="cat_select">{% csrf_token %}
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading">CODE FUNK</div>
+      <div class="list-group list-group-flush">
+        <div class="list-group-item list-group-item-action bg-light">Online Peoples
+            <nav  style="height:200px; width:18rem;overflow:hidden; overflow-y:scroll;">
+            <ul id ="connection-on" class="list-group-sm-12">
+                
+              </ul>
+            </nav>
+        </div>
+        <div class="list-group-item list-group-item-action bg-light">Chat With Team
+        <div class="scroll" id="div_data">  
+        </div> 
+        <textarea id="chatmessage" style="width: 300px;"></textarea>
+        <button type="button" style="margin-bottom: 1rem;font-size: large;" class="btn btn-outline-dark" id="sendmessage">Send</button></div>
+        <a href="#" class="list-group-item list-group-item-action bg-light">VideoChat With Team</a>
+        <!-- <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> -->
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
+        <select class="custom-select" id="language" name="language" style="margin-left:10px;width: 10rem;" onchange="clearscreen()">
+            <option selected>Language</option>
+            <option value="Java">Java</option>
+          <option value="Python">Python</option>
+          <option value="C">C</option>
+          <option value="CPP">CPP</option>
+          </select>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button> -->
+        <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li> -->
+            <!-- <li class="nav-item dropdown"> -->
+              <!-- <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a> -->
+              <!-- <select class="custom-select" id="language" name="language" onchange="clearscreen()">
+                <option selected>Language</option>
+                <option value="Java">Java</option>
+              <option value="Python">Python</option>
+              <option value="C">C</option>
+              <option value="CPP">CPP</option>
+              </select> -->
+            <!-- </li>
+          </ul>
+        </div> --> 
+      </nav>
+   
+        
+        <div class="row"><div class="col-sm-12">
+            <textarea  
+            onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"
+            style="tab-size: 4;background-color: rgb(2, 18, 49);color: ghostwhite;font-family: system-ui;" id="message"></textarea></div></div>
+ 
+            <div class="outfields">
+            </div>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+         
+               <button class="btn btn-success btn-lg" style="font-weight: bold;"  type="submit" id="cat_submit">
+            Execute
+          </button>
+          <div class="container">
+          <div class="row">
+           <div class="col">
+           <h3 >Input:</h3>
+        <textarea style="width: 20rem;height: 5rem;" id="showinput"></textarea></div>
+         <div class="col">
+         <h3 >Output:</h3>
+         <textarea style="width: 20rem;height: 5rem;" id="show"></textarea>
+      </div></div>
+    </div>
+      </nav>
+  
+     </form>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <script>
+      $("#menu-toggle").click(function(e) {
+    e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  
+    var x1;
+// var editor = ace.edit("editor");
+// // editor.setTheme("ace/theme/monokai");
+// editor.setTheme("ace/theme/dracula");
+
+
+// document.getElementById('editor').style.fontSize='20px';
+// document.getElementById('editor').style.font='22px';
+// editor.setBehavioursEnabled(false);
+// editor.resize();
+
+   var mess="";
+   var roomName='{{ room_name }}';
+   var personname='{{ person_name }}';
+   var chatSocket=new WebSocket('ws://'+window.location.host+'/ws/chat/'+roomName+'/'+personname+'/');
+
+
+   $('form').submit(function(e){
+   document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+e.preventDefault();
+var x1=document.querySelector("#message").value;
+// var x1=editor.getValue();
+$.ajax({
+   type:'POST',
+   url:'/showDetails/',
+   data:{
+       l2:x1,
+       l3:$('#language').val(),
+       l4:$('#showinput').val(),
+       csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+   },
+   success: function(json){
+       
+                   setTimeout(function(){
+                       
+                        document.getElementById('cat_submit').innerHTML=' <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
+                        if (json.result==""){
+                           $('#show').text("No Output").show();  
+                        }
+                        else{
+                       // var chatSocket=new WebSocket('ws://'+window.location.host+'/ws/chat/'+roomName+'/'+personname+'/');
+                           var message=document.getElementById('message').value;
+                           // var message=editor.getValue();
+                           mess=json.result;
+                           var v= document.getElementById('language');
+                           var v1 = v.options[v.selectedIndex].innerHTML;
+                           var inputs=document.getElementById('showinput').value;
+                           // $('#show').text(json.result).show();
+                           chatSocket.send(JSON.stringify({'message':message,'output':mess,'language':v1,'message1':"",'precodes':"","inputs":inputs}))
+
+
+                           
+                        }
+                        
+       document.getElementById('cat_submit').innerHTML='Execute';
+       }, 500);
+       
+       x1=mess;
+
+     
+   }
+});
+});
+window.localStorage
+  
+   var msg="";
+   
+   chatSocket.onmessage=function(e){
+       var data=JSON.parse(e.data)
+       var message=data['message']
+       var output=data['output']
+       var language=data['language']
+       var message1=data['message1']
+       var precodes=data['precodes']
+       var connectedpeople=data['connected']
+       console.log(connectedpeople)
+       if(connectedpeople!=null){
+           document.getElementById('connection-on').innerHTML=''
+        connectedpeople.forEach(function(s){
+           
+           document.getElementById('connection-on').innerHTML+=' <li class="list-group-item"><span class="dot"></span> '+ s +'</li>'
+         });
+       }
+       console.log(language)
+      var div=document.querySelector("#div_data");
+   //     vicky2 Joined Chat
+   console.log(language)
+       var kname=message1.endsWith(": ");
+
+       if(kname==true){
+           }
+           else{
+               console.log("aagya")
+           div.innerHTML+='<div>'+message1+'</div>'
+           if(message1.includes("Joined chat")){
+
+           }
+           }
+       if (output!="")
+           $('#show').text(output).show();
+       if (language!="")
+           $('#language').val(language);
+       if(message.includes("Joined Chat") || message.includes("Left Chat") || message==""){
+          
+       }
+       if(message.includes("Joined Chat")!=true && message.includes("Left Chat")!=true ){
+           document.getElementById("message").value=message;
+         
+           
+       }
+    
+       else{
+           var j=document.getElementById("message").value;
+           if(message.includes("Joined Chat")==true && j==""){
+               var data=precodes
+          
+               document.getElementById("message").value=data
+               
+           }
+       }
+            
+       
+
+       // 
+       
+           
+   }
+   
+   chatSocket.onclose=function(e){
+       var data=JSON.parse(e.data)
+       var message=data['message']
+       var output=data['output']
+       var language=data['language']
+       var message1=data['message1']
+       var precodes=data['precodes']
+       var connectedpeople=data['connected']
+      
+       if(connectedpeople!=null){
+        connectedpeople.forEach(function(s){
+           
+           document.getElementById('connection-on').innerHTML+=' <li class="list-group-item">'+ s +'</li>'
+         });
+       }
+       // console.log(language)
+   //  vicky2 Joined Chat
+   var kname=(personname+': ')
+       console.log(kname)
+      var k=(message1==kname)
+      console.log(k)
+      console.log(message1)
+
+       if(message1==kname){
+           }
+           else{
+               console.log("aagya")
+           div.innerHTML+='<div>'+message1+'</div>'
+           }
+       if (output!="")
+           $('#show').text(output).show();
+       if (language!="")
+           $('#language').val(language);
+       // editor.session.setValue(document.getElementById("message").value)
+       if(message.includes("Joined Chat")!=true && message.includes("Left Chat")!=true ){
+           document.getElementById("message").value=message;
+         
+   }
+   else{
+           var j=document.getElementById("message").value;
+           if(message.includes("Joined Chat")==true && j==""){
+               var data=precodes
+          
+               document.getElementById("message").value=data
+             
+           }
+       }
+     
+       
+   }
+
+//    document.querySelector("#message").onkeyup=function(e){
+       
+       
+//        var message=document.querySelector("#message").value;
+//        // 
+//        var v= document.getElementById('language');
+//        var v1 = v.options[v.selectedIndex].innerHTML;
+//        // console.log(v1)
+//        // console.log(message)
+//        chatSocket.send(JSON.stringify({'message':message,'output':"",'language':v1,'message1':"",'precodes':""}))
+       
+//    }
+document.querySelector("#message").addEventListener('keyup', function(event) {  
+   const key = event.keyCode; 
+// const {key} = event; ES6+
+// if (key == 8 || key == 46) {
+   
+    var message=document.querySelector("#message").value;
+       var v= document.getElementById('language');
+       var v1 = v.options[v.selectedIndex].innerHTML;
+       // console.log(v1)
+       // console.log(message)
+       chatSocket.send(JSON.stringify({'message':message,'output':"",'language':v1,'message1':"",'precodes':""}))
+// }
+
+   });
+   document.querySelector("#sendmessage").onclick=function(e){
+       
+   
+       var message1=document.querySelector("#chatmessage").value;
+
+       document.querySelector("#chatmessage").value="";
+       var message=document.querySelector("#message").value;
+       var v= document.getElementById('language');
+       var v1 = v.options[v.selectedIndex].innerHTML;
+       // console.log(v1)
+       // console.log(message)
+       chatSocket.send(JSON.stringify({'message':message,'output':"",'language':"",'message1':message1,'precodes':""}))
+      
+    
+       
+   }
+ 
+function clearscreen(){
+var x=document.forms[0];
+var v= document.getElementById('language');
+ var v1 = v.options[v.selectedIndex].innerHTML;
+  var message=document.querySelector("#message").value;
+
+// console.log(v1);
+chatSocket.send(JSON.stringify({'message':message,'output':"",'language':v1,'message1':"",'precodes':""}))
+
+
+
+}
+// function writedata(){
+//     var data=window.localStorage.getItem("writedata");
+//     console.log(data)
+//     document.getElementById("saveval").value=data;
+// }
+
+
+
+</script>
+
+</body>
+
+</html>
